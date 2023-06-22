@@ -1,4 +1,4 @@
-#-------------- Variavel Global -----------------------
+#-------------- VARIAVEIS GLOBAIS -----------------------
 
 sec = 0
 treino = 0
@@ -6,13 +6,15 @@ cadAlunos = []
 treinoAlunos = []
 
 # ------------- CLASSES --------------
-class Aluno():
-  nome = None
-  cpf = None
-  peso = 0
-  altura = 0
+class Aluno:
+    def __init__(self, nome, cpf, peso, altura):
+        self.nome = nome
+        self.cpf = cpf
+        self.peso = peso
+        self.altura = altura
+        self.status = False
 
-class Exercicio():
+class Exercicio:
   nomeExercicio = None
   numRepeticoes = 0
   pesoExercicio = 0
@@ -34,12 +36,11 @@ def menuprinc():
 
 def cadastroalun():
   for i in range(1):
-    a = Aluno()
-    a.nome = input('\nInsira o Nome do Aluno: ')
-    a.cpf = int(input('Insira o cpf do Aluno: '))
-    a.peso = float(input('Insira o Peso do Aluno: '))
-    a.altura = float(input('Insira a Altura do Aluno: '))
-    cadAlunos.append(a)
+    nome = input('\nInsira o Nome do Aluno: ')
+    cpf = int(input('Insira o cpf do Aluno: '))
+    peso = float(input('Insira o Peso do Aluno: '))
+    altura = float(input('Insira a Altura do Aluno: '))
+    cadAlunos.append(Aluno(nome, cpf, peso, altura))
     treinoAlunos.append([])
 
 def menutreino():
@@ -60,15 +61,29 @@ def exercicio():
     exer.pesoExercicio = float(input('Digite o Peso para o Exercicio: '))
     treinoAlunos.append(exer)
 
+def pesquisaalun():
+  alu = input('\nQual Aluno Deseja Ver? ')
+  for alu in cadAlunos:
+    if alu.nome == alu:
+        print('\nNome:', alu.nome)
+        print('CPF:', alu.cpf)
+        print('Peso:', alu.peso)
+        print('Altura:', alu.altura)
+        print('Status:', alu.status)
+        break
+    else:
+      print('\nAluno não encontrado.')
+
 #--------------------- CÓDIGO ------------------------------
-while True:
-  sec = menuprinc()
-  if sec == 1:
+while True:                
+  sec = menuprinc() 
+  if sec == 1:   # Cadastro de Alunos
     cadastroalun()
-  elif sec == 2:
+#==============================================================================#
+  elif sec == 2: # Gerenciar Treino
     while True:
       treino = menutreino()
-      if treino == 1:
+      if treino == 1: # Inserir Treino
         exercicio()
       #elif treino == 2:
       #elif treino == 3:
@@ -77,9 +92,11 @@ while True:
         break
         menuprinc()
       #else:
-        print('seção Invalida, Digite um Valor Valido')
+        print('Seção Invalida, Digite um Valor Valido')
         continue
-  #elif sec == 3:
+#==============================================================================#
+  elif sec == 3:     #consulta aluno
+     alu = pesquisaalun()
   #elif sec == 4:
   #elif sec == 5:
   #elif sec == 6:
