@@ -44,7 +44,7 @@ def cadastroalun():
     treinoAlunos.append([])
 
 def menutreino():
-  ('''\nOque deseja realizar?
+  print('''\nOque deseja realizar?
   [1] Incluir um novo Exercício
   [2] Alterar um Exercício
   [3] Excluir um Exercício
@@ -65,10 +65,12 @@ while True:
     while True:
       treino = menutreino()
       if treino == 1:
+        print("fswd")
       #elif treino == 2:
       #elif treino == 3:
       #elif treino == 4:
-      #elif treino == 0:
+      elif treino == 0:
+        break
         menuprinc()
       #else:
         print('seção Invalida, Digite um Valor Valido')
