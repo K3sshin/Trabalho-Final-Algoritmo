@@ -53,6 +53,15 @@ def menutreino():
   treino = int(input())
   return treino
 
+def exercicio():
+  for i in range(1):
+    exer = Exercicio()
+    exer.nomeExercicio = input('Digite o Nome do Exercicio: ')
+    exer.numRepeticoes = int(input('Digite o Numero de Repetições: '))
+    exer.pesoExercicio = float(input('Digite o Peso para o Exercicio: '))
+    treinoAlunos.append(exer)
+
+
 #def main():
   #return menuprinc()
 
