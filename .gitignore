@@ -1,3 +1,11 @@
+#-------------- Variavel Global -----------------------
+
+sec = 0
+treino = 0
+cadAlunos = []
+treinoAlunos = []
+
+# ------------- CLASSES --------------
 class Aluno():
   nome = None
   cpf = None
@@ -9,48 +17,68 @@ class Exercicio():
   numRepeticoes = 0
   pesoExercicio = 0
 
-cadAlunos = []
-treinoAlunos = []
+# ------------- FUNÇÕES -----------------
 
 def menuprinc():
+  sec = 0
   print('''\nBem vindo a Academia No pain No gain
-Oque gostaria de fazer hoje?
-[1] Cadastra Aluno
-[2] Gerenciar Treino
-[3] Consultar Aluno
-[4] Atualizar Cadastro
-[5] Excluir Aluno
-[6] Relatorio de Alunos
-[0] Sair
-''')
-  sec = int(input('digite o numero seção: '))
+  Oque gostaria de fazer hoje?
+  [1] Cadastrar Aluno
+  [2] Gerenciar Treino
+  [3] Consultar Aluno
+  [4] Atualizar Cadastro
+  [5] Excluir Aluno
+  [6] Relatorio de Alunos
+  [0] Sair''')
+  sec = int(input(' Digite o numero seção: '))
   return sec
 
+def cadastroalun():
+  for i in range(1):
+    a = Aluno()
+    a.nome = input('\nInsira o Nome do Aluno: ')
+    a.cpf = int(input('Insira o cpf do Aluno: '))
+    a.peso = float(input('Insira o Peso do Aluno: '))
+    a.altura = float(input('Insira a Altura do Aluno: '))
+    cadAlunos.append(a)
+    treinoAlunos.append([])
+
+def menutreino():
+  ('''\nOque deseja realizar?
+  [1] Incluir um novo Exercício
+  [2] Alterar um Exercício
+  [3] Excluir um Exercício
+  [4] Excluir Todos os Exercícios
+  [0] Retornar ao Menu Principal''')
+  treino = int(input())
+  return treino
+
+#def main():
+  #return menuprinc()
+
+#--------------------- CÓDIGO ------------------------------
+while True:
+  sec = menuprinc()
   if sec == 1:
-    print('\nCadastro de Novos Alunos')
-    for i in range(1):
-      a = Aluno()
-      a.nome = input('\nInsira o Nome do Aluno: ')
-      a.cpf = int(input('Insira o cpf do Aluno: '))
-      a.peso = float(input('Insira o Peso do Aluno: '))
-      a.altura = float(input('Insira a Altura do Aluno: '))
-      cadAlunos.append(a)
-      treinoAlunos.append([])
-
+    cadastroalun()
   elif sec == 2:
-     print('\nGerenciador de Treino dos Alunos')
-  def menutreino():
-    ('''\nOque deseja realizar?
-    [1] Incluir um novo Exercício
-    [2] Alterar um Exercício
-    [3] Excluir um Exercício
-    [4] Excluir Todos os Exercícios
-    [0] sair
-    ''')
-    treino = int(input())
-    return treino
-
-def main():
-  return menuprinc()
-
-main()
+    while True:
+      treino = menutreino()
+      if treino == 1:
+      #elif treino == 2:
+      #elif treino == 3:
+      #elif treino == 4:
+      #elif treino == 0:
+        menuprinc()
+      #else:
+        print('seção Invalida, Digite um Valor Valido')
+        menutreino()
+  #elif sec == 3:
+  #elif sec == 4:
+  #elif sec == 5:
+  #elif sec == 6:
+  elif sec == 0:
+    break
+  else:
+    print('seção Invalida, Digite um Valor Valido')
+    menuprinc()
