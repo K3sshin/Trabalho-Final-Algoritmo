@@ -3,7 +3,6 @@ class Aluno():
   cpf = None
   peso = 0
   altura = 0
-  status = false
 
 class Exercicio():
   nomeExercicio = None
@@ -24,35 +23,32 @@ Oque gostaria de fazer hoje?
 [6] Relatorio de Alunos
 [0] Sair
 ''')
-  seção = int(input())
-  return seção
+  sec = int(input('digite o numero seção: '))
+  return sec
 
-cadAlunos = []
-treinoAlunos = []
+  if sec == 1:
+    print('\nCadastro de Novos Alunos')
+    for i in range(1):
+      a = Aluno()
+      a.nome = input('\nInsira o Nome do Aluno: ')
+      a.cpf = int(input('Insira o cpf do Aluno: '))
+      a.peso = float(input('Insira o Peso do Aluno: '))
+      a.altura = float(input('Insira a Altura do Aluno: '))
+      cadAlunos.append(a)
+      treinoAlunos.append([])
 
-if seção == 1:
-  print('\nCadastro de Novos Alunos')
-  for i in range(1):
-    a = Aluno()
-    a.nome = input('\nInsira o Nome do Aluno: ')
-    a.cpf = int(input('Insira o cpf do Aluno: '))
-    a.peso = float(input('Insira o Peso do Aluno: '))
-    a.altura = float(input('Insira a Altura do Aluno: '))
-    cadAlunos.append(a)
-    treinoAlunos.append([])
-
-if seção == 2:
-  print('\nGerenciador de Treino dos Alunos')
+  elif sec == 2:
+     print('\nGerenciador de Treino dos Alunos')
   def menutreino():
-    t = int(input('''\nOque deseja realizar?
+    ('''\nOque deseja realizar?
     [1] Incluir um novo Exercício
     [2] Alterar um Exercício
     [3] Excluir um Exercício
     [4] Excluir Todos os Exercícios
     [0] sair
-    '''))
-    return t
-  t = menutreino()
+    ''')
+    treino = int(input())
+    return treino
 
 def main():
   return menuprinc()
