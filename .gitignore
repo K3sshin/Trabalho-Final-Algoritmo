@@ -1,5 +1,6 @@
 #-------------- VARIAVEIS GLOBAIS -----------------------
 
+alu = 0
 sec = 0
 treino = 0
 cadAlunos = []
@@ -13,6 +14,7 @@ class Aluno:
         self.peso = peso
         self.altura = altura
         self.status = False
+        self.treino = []
 
 class Exercicio:
   nomeExercicio = None
@@ -20,6 +22,8 @@ class Exercicio:
   pesoExercicio = 0
 
 # ------------- FUNÇÕES -----------------
+
+#-------- FUNÇÃO MENU PRINCIPAL --------------
 
 def menuprinc():
   print('''\nBem vindo a Academia No pain No gain
@@ -34,6 +38,8 @@ def menuprinc():
   sec = int(input(' Digite o numero seção: '))
   return sec
 
+#-------------- CADASTRO ALUNO -----------------
+
 def cadastroalun():
   for i in range(1):
     nome = input('\nInsira o Nome do Aluno: ')
@@ -42,6 +48,9 @@ def cadastroalun():
     altura = float(input('Insira a Altura do Aluno: '))
     cadAlunos.append(Aluno(nome, cpf, peso, altura))
     treinoAlunos.append([])
+    print('\nAluno Cadastrado com Sucesso!')
+
+#--------------- MENU TREINO -----------------------
 
 def menutreino():
   print('''\nOque deseja realizar?
@@ -53,30 +62,35 @@ def menutreino():
   treino = int(input())
   return treino
 
+#----------------- CADATRO EXERCICIOS -------------------------
+
 def exercicio():
   for i in range(1):
     exer = Exercicio()
     exer.nomeExercicio = input('Digite o Nome do Exercicio: ')
     exer.numRepeticoes = int(input('Digite o Numero de Repetições: '))
     exer.pesoExercicio = float(input('Digite o Peso para o Exercicio: '))
-    treinoAlunos.append(exer)
+    treinoAlunos[idalun].append(exer)
+
+#--------------- PESQUISA DE ALUNOS -------------------------
 
 def pesquisaalun():
-  alu = input('\nQual Aluno Deseja Ver? ')
-  for alu in cadAlunos:
-    if alu.nome == alu:
-        print('\nNome:', alu.nome)
-        print('CPF:', alu.cpf)
-        print('Peso:', alu.peso)
-        print('Altura:', alu.altura)
-        print('Status:', alu.status)
-        break
+  alu = input('\nQual Aluno Deseja Consultar? ')
+  for cad in cadAlunos:
+    if cad.nome == alu:
+      print('\nAluno Encontrado!')
+      print('Nome:', cad.nome)
+      print('CPF:', cad.cpf)
+      print('Peso:', cad.peso)
+      print('Altura:', cad.altura)
+      print('Status:', cad.status)
     else:
-      print('\nAluno não encontrado.')
+      print('\nAluno não Encontrado!')
 
 #--------------------- CÓDIGO ------------------------------
-while True:                
-  sec = menuprinc() 
+
+while True:
+  sec = menuprinc()
   if sec == 1:   # Cadastro de Alunos
     cadastroalun()
 #==============================================================================#
