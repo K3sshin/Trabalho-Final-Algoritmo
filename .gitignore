@@ -1,5 +1,6 @@
 #-------------- VARIAVEIS GLOBAIS -----------------------
-
+atu = 0
+ex = 0
 alu = 0
 sec = 0
 treino = 0
@@ -9,19 +10,17 @@ treinoAlunos = []
 # ------------- CLASSES --------------
 class Aluno:
     def __init__(self, nome, cpf, peso, altura):
-        self.nome = nome
-        self.cpf = cpf
-        self.peso = peso
-        self.altura = altura
-        self.status = False
-        self.treino = []
+      self.nome = nome
+      self.cpf = cpf
+      self.peso = peso
+      self.altura = altura
+      self.status = False
 
 class Exercicio:
-  nomeExercicio = None
-  numRepeticoes = 0
-  pesoExercicio = 0
-
-# ------------- FUNÇÕES -----------------
+  def __init__(self, exerc, rept, peso):
+    self.exerc = exerc
+    self.rept = rept
+    self.peso = peso
 
 #-------- FUNÇÃO MENU PRINCIPAL --------------
 
@@ -50,6 +49,62 @@ def cadastroalun():
     treinoAlunos.append([])
     print('\nAluno Cadastrado com Sucesso!')
 
+#--------------- PESQUISA DE ALUNOS -------------------------
+
+def pesquisaalun():
+  alu = input('\nQual Aluno Deseja Consultar? ')
+  for cad in cadAlunos:
+    if cad.nome == alu:
+      print('\nAluno Encontrado!')
+      print('Nome:', cad.nome)
+      print('CPF:', cad.cpf)
+      print('Peso:', cad.peso)
+      print('Altura:', cad.altura)
+      print('Status:', cad.status)
+      break
+    else:
+      print('\nAluno não Encontrado!')
+
+#------------ ATUALIZAR CADASTRO -----------------
+
+def atualizar():
+    alu = input('\nQual Aluno Deseja Atualizar? ')
+    for cad in cadAlunos:
+        if cad.nome == alu:
+            print('\nAluno Encontrado!')
+            novo_nome = input('Digite o Novo Nome ou Caso Não Queira Mudar deixe em Branco: ')
+            if novo_nome != '':
+                cad.nome = novo_nome
+            novo_cpf = input('Digite o Novo Cpf ou Caso Não Queira Mudar deixe em Branco: ')
+            if novo_cpf != '':
+                cad.cpf = novo_cpf
+            novo_peso = input('Digite o Novo Peso ou Caso Não Queira Mudar deixe em Branco: ')
+            if novo_peso != '':
+                cad.peso = float(novo_peso)
+            nova_altura = input('Digite a Nova Altura ou Caso Não Queira Mudar deixe em Branco: ')
+            if nova_altura != '':
+                cad.altura = float(nova_altura)
+            print('\nAluno Atualizado com Sucesso!')
+            break
+        else:
+          print('\nAluno não encontrado!')
+
+#--------------- EXCLUIR ALUNO -------------------------
+
+def excluiralu():
+  ex = ('\nQual Aluno Deseja Excluir: ')
+  for cad in cadAlunos:
+    if cad.nome == ex:
+      conf = input('\nTem Certeza que Deseja Excluir o Aluno S/N')
+      if conf == S:
+        cadAlunos.clear(cad)
+        print(f"\nAluno {cad.nome} excluído com sucesso!")
+        break
+      elif conf == N:
+        continue
+      else:
+        print("\nAluno não encontrado!")
+
 #--------------- MENU TREINO -----------------------
 
 def menutreino():
@@ -72,20 +127,6 @@ def exercicio():
     exer.pesoExercicio = float(input('Digite o Peso para o Exercicio: '))
     treinoAlunos[idalun].append(exer)
 
-#--------------- PESQUISA DE ALUNOS -------------------------
-
-def pesquisaalun():
-  alu = input('\nQual Aluno Deseja Consultar? ')
-  for cad in cadAlunos:
-    if cad.nome == alu:
-      print('\nAluno Encontrado!')
-      print('Nome:', cad.nome)
-      print('CPF:', cad.cpf)
-      print('Peso:', cad.peso)
-      print('Altura:', cad.altura)
-      print('Status:', cad.status)
-    else:
-      print('\nAluno não Encontrado!')
 
 #--------------------- CÓDIGO ------------------------------
 
@@ -98,7 +139,7 @@ while True:
     while True:
       treino = menutreino()
       if treino == 1: # Inserir Treino
-        exercicio()
+        exe = exercicio()
       #elif treino == 2:
       #elif treino == 3:
       #elif treino == 4:
@@ -110,10 +151,11 @@ while True:
         continue
 #==============================================================================#
   elif sec == 3:     #consulta aluno
-     alu = pesquisaalun()
-  #elif sec == 4:
-  #elif sec == 5:
-  #elif sec == 6:
+    alu = pesquisaalun()
+  elif sec == 4:    # Atualizar Cadastro
+    atu = atualizar()
+  # elif sec == 5:
+  # #elif sec == 6:
   elif sec == 0:
     break
   else:
