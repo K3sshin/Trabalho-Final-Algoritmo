@@ -1,5 +1,6 @@
 #-------------- VARIAVEIS GLOBAIS -----------------------
 
+rel = None
 altreino = None
 atu = None
 inc = None
@@ -62,9 +63,19 @@ def pesquisaalun():
       print('Peso:', cad.peso)
       print('Altura:', cad.altura)
       print('Status:', cad.status)
-      break
+      id_alu = cadAlunos.index(cad)            
+      if treinoAlunos[id_alu]:
+        print('\nExercícios do aluno:')
+        for trei in treinoAlunos[id_alu]:
+          print('\nTreinos do aluno: ')
+          print('Treino: ', trei.exerc)
+          print('Repetiçoes: ', trei.rept)
+          print('Peso: ', trei.peso)
+      else:
+        print('\nO aluno não tem exercícios cadastrados.')  
+        break
     else:
-      print('\nAluno não Encontrado!')
+        print('\nAluno não Encontrado!')
 
 #------------ ATUALIZAR CADASTRO -----------------
 
@@ -92,19 +103,56 @@ def atualizar():
 
 #--------------- EXCLUIR ALUNO -------------------------
 
-def excluiralu():
-  ex = ('\nQual Aluno Deseja Excluir: ')
-  for cad in cadAlunos:
-    if cad.nome == ex:
-      conf = input('\nTem Certeza que Deseja Excluir o Aluno S/N\n')
-      if conf == 'S' or 's':
-        cadAlunos.remove(cad)
-        print(f"\nAluno {cad.nome} excluído com sucesso!")
-        break
-      elif conf == 'N' or 'n':
-        continue
-      else:
-        print("\nAluno não encontrado!")
+#---------------- RALATORIO ALUNO ----------------------------
+
+def RelatorioAluno():
+    opc = int(input('''\n1-Relatório de alunos ativos
+  2-Relatório de alunos inativos
+  3-Relatório de todos os alunos
+  '''))
+    if opc == 1:
+      mAlunos(True, True)
+    elif opc == 2:
+      mAlunos(False, False)
+    elif opc == 3:
+      mAlunos(True, False)
+    else:
+      print('Opção invalida, Digite Novamente')
+      return RelatorioAluno()
+  
+def mAlunos(y1, y2):
+  X = True
+  for i in range(len(cadAlunos)):
+      if cadAlunos[i].status == y1 or cadAlunos[i].status == y2:
+          X = False
+          print(f"-----Aluno-----")
+          print("Nome:", cadAlunos[i].nome)
+          print("Cpf:", cadAlunos[i].cpf)
+          print(f"Peso: {cadAlunos[i].peso} Kg")
+          print(f"Altura: {cadAlunos[i].altura} cm")           
+          if y1 == True and y2 == False:
+            if cadAlunos[i].status == True:
+              print("Aluno ativo")
+            elif cadAlunos[i].status == False:
+              print("Aluno inativo")
+          print()
+  if X and (y1 == True and y2 == True):
+    print("nenhum aluno ativo foi encontrado\n")
+  elif X and (y1 == False and y2 == False):
+    print("nenhum aluno inativo foi encontrado\n")
+  elif X:
+    print("Não há alunos cadastrados\n")
+  while True:
+    cont = input('\nDeseja continuar em Relatorios: S/N')
+    if cont == 'S' or cont == 's':
+      break
+      RelatorioAluno()
+    elif cont == 'N' or cont == 'n':
+      break
+      menuprinc()
+    else:
+      print('Opção invalida!')
+
 
 #--------------- MENU TREINO -----------------------
 
@@ -123,20 +171,20 @@ def menutreino():
 def inctreino():
   while True:
     alu_nome = input('\nQual Aluno deseja Cadastrar: ')
-    alu_ind = None
+    id_alu = None
     for ind in range(len(cadAlunos)):
       cad = cadAlunos[ind]
       if cad.nome == alu_nome:
-        alu_ind = ind
+        id_alu = ind
         break
-    if alu_ind is not None:
-      while len(treinoAlunos[alu_ind]) < 10:
+    if id_alu is not None:
+      while len(treinoAlunos[id_alu]) < 10:
         nometrei = input('Digite o Nome do Exercicio: ')
         numerep = int(input('Digite o Numero de Repetições: '))
         pesotrei = float(input('Digite o Peso para o Exercicio: '))
-        treinoAlunos[alu_ind].append(Exercicio(nometrei, numerep, pesotrei))
+        treinoAlunos[id_alu].append(Exercicio(nometrei, numerep, pesotrei))
         print('Treino registrado com sucesso!')
-        cadAlunos[alu_ind].status = True
+        cadAlunos[id_alu].status = True
         conf = input('\nDeseja continuar adcionando treinos ? S/N ')
         if conf == 'S' or conf == 's':
           continue
@@ -150,7 +198,7 @@ def inctreino():
     conf = input('\nDeseja voltar ao menu de treino S/N ')
     if conf == 'S' or conf == 's':
       break
-      menutreino()
+      RelatorioAluno()
     elif conf == 'N' or conf == 'n':
       break
       menuprinc()
@@ -160,34 +208,71 @@ def inctreino():
 #-------------------- ALTERAR TREINO ------------------------------
 
 def altreino():
-    alu_nome = input('\nQual Aluno deseja modificar o treino: ')
-    alu_ind = None
-    for ind in range(len(cadAlunos)):
-        cad = cadAlunos[ind]
-        if cad.nome == alu_nome:
-            alu_ind = ind
-            break
-    if alu_ind is not None:
-        print('Treinos do Aluno:')
-        for ind in range(len(treinoAlunos[alu_ind])):
-            treino = treinoAlunos[alu_ind][ind]
-            print(f'[{ind + 1}] | [{treino.exerc}] | [{treino.rept} repetições] - [{treino.peso} kg]')
-        treino_ind = int(input('Qual treino deseja alterar? ')) - 1
-        if 0 <= treino_ind < len(treinoAlunos[alu_ind]):
-            nometrei = input('Digite o Nome do Exercicio: ')
-            numerep = int(input('Digite o Numero de Repetições: '))
-            pesotrei = float(input('Digite o Peso para o Exercicio: '))
-            treinoAlunos[alu_ind][treino_ind] = Exercicio(nometrei, numerep, pesotrei)
-            print('Treino alterado com sucesso!')
-        else:
-            print('Índice de treino inválido!')
-    else:
-        print('\nNome não encontrado!')
+  alu_nome = input('\nQual Aluno deseja modificar o treino: ')
+  alu_ind = None
+  for ind in range(len(cadAlunos)):
+      cad = cadAlunos[ind]
+      if cad.nome == alu_nome:
+          alu_ind = ind
+          break
+  if alu_ind is not None:
+      print('Treinos do Aluno:')
+      for ind in range(len(treinoAlunos[alu_ind])):
+          treino = treinoAlunos[alu_ind][ind]
+          print(f'[{ind + 1}] | [{treino.exerc}] | [{treino.rept} repetições] - [{treino.peso} kg]')
+      treino_ind = int(input('Qual treino deseja alterar? ')) - 1
+      if 0 <= treino_ind < len(treinoAlunos[alu_ind]):
+          nometrei = input('Digite o Nome do Exercicio: ')
+          numerep = int(input('Digite o Numero de Repetições: '))
+          pesotrei = float(input('Digite o Peso para o Exercicio: '))
+          treinoAlunos[alu_ind][treino_ind] = Exercicio(nometrei, numerep, pesotrei)
+          print('Treino alterado com sucesso!')
+      else:
+        print('Índice de treino inválido!')
+  else:
+    print('\nNome não encontrado!')
 
 #----------------- EXCLUIR TREINO ---------------------------------
 
-def extrei():
+def excltrei():
+  nome_aluno = input('Digite o nome do aluno: ')    
+  id_alu = None
+  for i in range(len(cadAlunos)):
+      if cadAlunos[i].nome == nome_aluno:
+          id_alu = i
+          break   
+  if id_alu is not None:
+      print('Exercícios do aluno:')
+      for trei in treinoAlunos[id_alu]:
+          print(f'- {trei.exerc} ([{trei.rept} repetições], [{trei.peso} kg])')       
+      nome_trei = input('Digite o nome do exercício a ser excluído: ')        
+      id_trei = None
+      for i in range(len(treinoAlunos[id_alu])):
+          if treinoAlunos[id_alu][i].exerc == nome_trei:
+              id_trei = i
+              break       
+      if id_trei is not None:
+          treinoAlunos[id_alu].pop(id_trei)
+          print('Exercício excluído com sucesso!')
+      else:
+        print('Exercício não encontrado.')
+  else:
+    print('Aluno não encontrado.')
 
+#---------------- EXCLUIR TODOS TREINOS ---------------------------------
+
+def excltodostrei():
+    nome_aluno = input('Digite o nome do aluno: ')    
+    id_alu = None
+    for i in range(len(cadAlunos)):
+        if cadAlunos[i].nome == nome_aluno:
+            indice_aluno = i
+            break    
+    if indice_aluno is not None:
+        treinoAlunos[id_alu].clear()
+        print('Todos os exercícios excluídos com sucesso!')
+    else:
+        print('Aluno não encontrado.')
 
 #--------------------- CÓDIGO ------------------------------
 
@@ -200,15 +285,16 @@ while True:
       treino = menutreino()
       if treino == 1: # Inserir Treino
         inc = inctreino()
-      elif treino == 2:
+      elif treino == 2:  #altera treino
         alt = altreino()
-      elif treino == 3:
-        exc = extrei()
-      #elif treino == 4:
+      elif treino == 3:   #exclui treino
+        exc = excltrei()
+      elif treino == 4:   #excluir todos os treinos
+        exc = excltodostrei()
       elif treino == 0:
         break
         menuprinc()
-      #else:
+      else:
         print('Seção Invalida, Digite um Valor Valido')
         continue
   elif sec == 3:     #consulta aluno
@@ -216,7 +302,8 @@ while True:
   elif sec == 4:    # Atualizar Cadastro
     atu = atualizar()
   # elif sec == 5:
-  # #elif sec == 6:
+  elif sec == 6:
+    rel = RelatorioAluno()
   elif sec == 0:
     break
   else:
