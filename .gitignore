@@ -25,6 +25,10 @@ class Exercicio:
     self.rept = rept
     self.peso = peso
 
+#------------ FUNÇÕES DE VERIFICAÇÃO -------------
+
+
+
 #-------- FUNÇÃO MENU PRINCIPAL --------------
 
 def menuprinc():
@@ -63,7 +67,7 @@ def pesquisaalun():
       print('Peso:', cad.peso)
       print('Altura:', cad.altura)
       print('Status:', cad.status)
-      id_alu = cadAlunos.index(cad)            
+      id_alu = cadAlunos.index(cad)
       if treinoAlunos[id_alu]:
         print('\nExercícios do aluno:')
         for trei in treinoAlunos[id_alu]:
@@ -72,7 +76,7 @@ def pesquisaalun():
           print('Repetiçoes: ', trei.rept)
           print('Peso: ', trei.peso)
       else:
-        print('\nO aluno não tem exercícios cadastrados.')  
+        print('\nO aluno não tem exercícios cadastrados.')
         break
     else:
         print('\nAluno não Encontrado!')
@@ -103,13 +107,37 @@ def atualizar():
 
 #--------------- EXCLUIR ALUNO -------------------------
 
+def Excluialuno():
+  alu = input('\nQual Aluno Deseja excluir? ')
+  for cad in cadAlunos:
+    if cad.nome == alu:
+      print('\nAluno Encontrado!')
+      print('Nome:', cad.nome)
+      print('CPF:', cad.cpf)
+      print('Peso:', cad.peso)
+      print('Altura:', cad.altura)
+      print('Status:', cad.status)
+      id_alu = cadAlunos.index(cad)
+      if treinoAlunos[id_alu]:
+        for trei in treinoAlunos[id_alu]:
+          conf = input('\nDeseja exclui-lo permanentemente: S/N')
+          if conf == 'S' or conf == 's':
+            cadAlunos.remove(cad)
+            treinoAlunos.pop(id_alu)
+            print('\nAluno excluido com sucesso!')
+          elif conf == 'N' or conf == 'n':
+            print('\nRetornando ao menu principal')
+            break
+    else:
+        print('\nAluno não Encontrado!')
+
 #---------------- RALATORIO ALUNO ----------------------------
 
 def RelatorioAluno():
     opc = int(input('''\n1-Relatório de alunos ativos
-  2-Relatório de alunos inativos
-  3-Relatório de todos os alunos
-  '''))
+2-Relatório de alunos inativos
+3-Relatório de todos os alunos
+'''))
     if opc == 1:
       mAlunos(True, True)
     elif opc == 2:
@@ -119,7 +147,7 @@ def RelatorioAluno():
     else:
       print('Opção invalida, Digite Novamente')
       return RelatorioAluno()
-  
+
 def mAlunos(y1, y2):
   X = True
   for i in range(len(cadAlunos)):
@@ -129,7 +157,7 @@ def mAlunos(y1, y2):
           print("Nome:", cadAlunos[i].nome)
           print("Cpf:", cadAlunos[i].cpf)
           print(f"Peso: {cadAlunos[i].peso} Kg")
-          print(f"Altura: {cadAlunos[i].altura} cm")           
+          print(f"Altura: {cadAlunos[i].altura} cm")
           if y1 == True and y2 == False:
             if cadAlunos[i].status == True:
               print("Aluno ativo")
@@ -190,7 +218,7 @@ def inctreino():
           continue
         elif conf == 'N' or conf == 'n':
           break
-          menutreino()
+          menuprinc()
         else:
           conf = input('\nInvalido, Digite Novamente: S/N ')
     else:
@@ -235,22 +263,22 @@ def altreino():
 #----------------- EXCLUIR TREINO ---------------------------------
 
 def excltrei():
-  nome_aluno = input('Digite o nome do aluno: ')    
+  nome_aluno = input('Digite o nome do aluno: ')
   id_alu = None
   for i in range(len(cadAlunos)):
       if cadAlunos[i].nome == nome_aluno:
           id_alu = i
-          break   
+          break
   if id_alu is not None:
       print('Exercícios do aluno:')
       for trei in treinoAlunos[id_alu]:
-          print(f'- {trei.exerc} ([{trei.rept} repetições], [{trei.peso} kg])')       
-      nome_trei = input('Digite o nome do exercício a ser excluído: ')        
+          print(f'- [{trei.exerc}] ([{trei.rept} repetições], [{trei.peso} kg])')
+      nome_trei = input('Digite o nome do exercício a ser excluído: ')
       id_trei = None
       for i in range(len(treinoAlunos[id_alu])):
           if treinoAlunos[id_alu][i].exerc == nome_trei:
               id_trei = i
-              break       
+              break
       if id_trei is not None:
           treinoAlunos[id_alu].pop(id_trei)
           print('Exercício excluído com sucesso!')
@@ -262,13 +290,13 @@ def excltrei():
 #---------------- EXCLUIR TODOS TREINOS ---------------------------------
 
 def excltodostrei():
-    nome_aluno = input('Digite o nome do aluno: ')    
+    nome_aluno = input('Digite o nome do aluno: ')
     id_alu = None
     for i in range(len(cadAlunos)):
         if cadAlunos[i].nome == nome_aluno:
-            indice_aluno = i
-            break    
-    if indice_aluno is not None:
+            id_alu = i
+            break
+    if id_alu is not None:
         treinoAlunos[id_alu].clear()
         print('Todos os exercícios excluídos com sucesso!')
     else:
@@ -289,9 +317,9 @@ while True:
         alt = altreino()
       elif treino == 3:   #exclui treino
         exc = excltrei()
-      elif treino == 4:   #excluir todos os treinos
+      elif treino == 4:   #exclui todos os treinos
         exc = excltodostrei()
-      elif treino == 0:
+      elif treino == 0:   #sai do menu treino e volta ao principal
         break
         menuprinc()
       else:
@@ -299,13 +327,14 @@ while True:
         continue
   elif sec == 3:     #consulta aluno
     alu = pesquisaalun()
-  elif sec == 4:    # Atualizar Cadastro
+  elif sec == 4:    #atualizar Cadastro
     atu = atualizar()
-  # elif sec == 5:
-  elif sec == 6:
+  elif sec == 5:    #exclui aluno
+    exc = Excluialuno()
+  elif sec == 6:    #relatorio de aluno
     rel = RelatorioAluno()
-  elif sec == 0:
+  elif sec == 0:   #encerra o codigo
     break
-  else:
+  else:     
     print('\nSeção Invalida, Digite um Valor Valido')
     continue
