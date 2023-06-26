@@ -1,9 +1,11 @@
 #-------------- VARIAVEIS GLOBAIS -----------------------
-atu = 0
-ex = 0
-alu = 0
-sec = 0
-treino = 0
+
+altreino = None
+atu = None
+inc = None
+alu = None
+sec = None
+treino = None
 cadAlunos = []
 treinoAlunos = []
 
@@ -40,14 +42,13 @@ def menuprinc():
 #-------------- CADASTRO ALUNO -----------------
 
 def cadastroalun():
-  for i in range(1):
-    nome = input('\nInsira o Nome do Aluno: ')
-    cpf = int(input('Insira o cpf do Aluno: '))
-    peso = float(input('Insira o Peso do Aluno: '))
-    altura = float(input('Insira a Altura do Aluno: '))
-    cadAlunos.append(Aluno(nome, cpf, peso, altura))
-    treinoAlunos.append([])
-    print('\nAluno Cadastrado com Sucesso!')
+  nome = input('\nInsira o Nome do Aluno: ')
+  cpf = int(input('Insira o cpf do Aluno: '))
+  peso = float(input('Insira o Peso do Aluno: '))
+  altura = float(input('Insira a Altura do Aluno: '))
+  cadAlunos.append(Aluno(nome, cpf, peso, altura))
+  treinoAlunos.append([])
+  print('\nAluno Cadastrado com Sucesso!')
 
 #--------------- PESQUISA DE ALUNOS -------------------------
 
@@ -95,12 +96,12 @@ def excluiralu():
   ex = ('\nQual Aluno Deseja Excluir: ')
   for cad in cadAlunos:
     if cad.nome == ex:
-      conf = input('\nTem Certeza que Deseja Excluir o Aluno S/N')
-      if conf == S:
+      conf = input('\nTem Certeza que Deseja Excluir o Aluno S/N\n')
+      if conf == 'S' or 's':
         cadAlunos.clear(cad)
         print(f"\nAluno {cad.nome} excluído com sucesso!")
         break
-      elif conf == N:
+      elif conf == 'N' or 'n':
         continue
       else:
         print("\nAluno não encontrado!")
@@ -117,30 +118,68 @@ def menutreino():
   treino = int(input())
   return treino
 
-#----------------- CADATRO EXERCICIOS -------------------------
+#----------------- CADASTRO TREINOS -------------------------
 
-def exercicio():
-  for i in range(1):
-    exer = Exercicio()
-    exer.nomeExercicio = input('Digite o Nome do Exercicio: ')
-    exer.numRepeticoes = int(input('Digite o Numero de Repetições: '))
-    exer.pesoExercicio = float(input('Digite o Peso para o Exercicio: '))
-    treinoAlunos[idalun].append(exer)
+def inctreino():
+  while True:
+    alu_nome = input('\nQual Aluno deseja Cadastrar: ')
+    alu_index = None
+    for index, cad in enumerate(cadAlunos):
+      if cad.nome == alu_nome:
+        alu_index = index
+        break
+    if alu_index is not None:
+      while len(treinoAlunos[alu_index]) < 11:
+        nometrei = input('Digite o Nome do Exercicio: ')
+        numerep = int(input('Digite o Numero de Repetições: '))
+        pesotrei = float(input('Digite o Peso para o Exercicio: '))
+        treinoAlunos[alu_index].append(Exercicio(nometrei, numerep, pesotrei))
+        print('Treino registrado com sucesso!')
+        conf = input('\nDeseja continuar adcionando treinos ? S/N ')
+        if conf == 'N' or 'n':
+          break
+        elif conf == 'S' or 's':
+          continue
+          menutreino()
+        else:
+          conf = input('\nInvalido, Digite Novamente: S/N ')
+    else:
+      print('\nNome não encontrado!')
+    conf = input('\nDeseja voltar ao menu de treino S/N ')
+    if conf == 'S' or 's':
+      break
+      menutreino()
+    elif conf == 'N' or 'n':
+      break
+      menuprinc()
+    else:
+      conf = input('\nInvalido, Digite Novamente: S/N ')
 
+#-------------------- ALTERAR TREINO ------------------------------
+
+def altreino():
+  while True:
+    alu_nome = input('\nQual Aluno deseja modificar o treino: ')
+    alu_index = None
+    for index, cad in enumerate(cadAlunos):
+      if cad.nome == alu_nome:
+        alu_index = index
+        break
+    if alu_index is not None
 
 #--------------------- CÓDIGO ------------------------------
 
 while True:
   sec = menuprinc()
   if sec == 1:   # Cadastro de Alunos
-    cadastroalun()
-#==============================================================================#
+    alu = cadastroalun()
   elif sec == 2: # Gerenciar Treino
     while True:
       treino = menutreino()
       if treino == 1: # Inserir Treino
-        exe = exercicio()
-      #elif treino == 2:
+        inc = inctreino()
+      elif treino == 2:
+        alt = altreino()
       #elif treino == 3:
       #elif treino == 4:
       elif treino == 0:
@@ -149,7 +188,6 @@ while True:
       #else:
         print('Seção Invalida, Digite um Valor Valido')
         continue
-#==============================================================================#
   elif sec == 3:     #consulta aluno
     alu = pesquisaalun()
   elif sec == 4:    # Atualizar Cadastro
