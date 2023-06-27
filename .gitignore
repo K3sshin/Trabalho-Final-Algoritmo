@@ -12,11 +12,12 @@ treinoAlunos = []
 
 # ------------- CLASSES --------------
 class Aluno:
-    def __init__(self, nome, cpf, peso, altura):
+    def __init__(self, nome, cpf, peso, altura, imc):
       self.nome = nome
       self.cpf = cpf
       self.peso = peso
       self.altura = altura
+      self.imc = imc
       self.status = False
 
 class Exercicio:
@@ -24,10 +25,6 @@ class Exercicio:
     self.exerc = exerc
     self.rept = rept
     self.peso = peso
-
-#------------ FUNÇÕES DE VERIFICAÇÃO -------------
-
-
 
 #-------- FUNÇÃO MENU PRINCIPAL --------------
 
@@ -48,10 +45,15 @@ def menuprinc():
 
 def cadastroalun():
   nome = input('\nInsira o Nome do Aluno: ')
+  for alu in cadAlunos:
+    if alu.nome == nome:       #verifica se ja existe um aluno com o mesmo nome
+      print("Já existe um aluno com esse nome.")
+      return
   cpf = int(input('Insira o cpf do Aluno: '))
   peso = float(input('Insira o Peso do Aluno: '))
   altura = float(input('Insira a Altura do Aluno: '))
-  cadAlunos.append(Aluno(nome, cpf, peso, altura))
+  imc = peso / (altura / 100) ** 2 #calcula imc
+  cadAlunos.append(Aluno(nome, cpf, peso, altura, imc))
   treinoAlunos.append([])
   print('\nAluno Cadastrado com Sucesso!')
 
@@ -66,6 +68,7 @@ def pesquisaalun():
       print('CPF:', cad.cpf)
       print('Peso:', cad.peso)
       print('Altura:', cad.altura)
+      print(f'Imc: {cad.imc:.2f}')
       print('Status:', cad.status)
       id_alu = cadAlunos.index(cad)
       if treinoAlunos[id_alu]:
@@ -100,6 +103,7 @@ def atualizar():
             nova_altura = input('Digite a Nova Altura ou Caso Não Queira Mudar deixe em Branco: ')
             if nova_altura != '':
                 cad.altura = float(nova_altura)
+            cad.imc = cad.peso / (cad.altura / 100) ** 2
             print('\nAluno Atualizado com Sucesso!')
             break
         else:
@@ -116,6 +120,7 @@ def Excluialuno():
       print('CPF:', cad.cpf)
       print('Peso:', cad.peso)
       print('Altura:', cad.altura)
+      print(f'Imc: {cad.imc:.2f}')
       print('Status:', cad.status)
       id_alu = cadAlunos.index(cad)
       if treinoAlunos[id_alu]:
@@ -158,6 +163,7 @@ def mAlunos(y1, y2):
           print("Cpf:", cadAlunos[i].cpf)
           print(f"Peso: {cadAlunos[i].peso} Kg")
           print(f"Altura: {cadAlunos[i].altura} cm")
+          print(f"Imc: {cadAlunos[i].imc:.2f}")
           if y1 == True and y2 == False:
             if cadAlunos[i].status == True:
               print("Aluno ativo")
@@ -180,7 +186,6 @@ def mAlunos(y1, y2):
       menuprinc()
     else:
       print('Opção invalida!')
-
 
 #--------------- MENU TREINO -----------------------
 
@@ -208,6 +213,10 @@ def inctreino():
     if id_alu is not None:
       while len(treinoAlunos[id_alu]) < 10:
         nometrei = input('Digite o Nome do Exercicio: ')
+        for trei in treinoAlunos[id_alu]:   #verifica se ja existe um exercicio com o mesmo nome
+          if trei.exerc == nometrei:
+            print("Já existe um exercício com esse nome.")
+            continue
         numerep = int(input('Digite o Numero de Repetições: '))
         pesotrei = float(input('Digite o Peso para o Exercicio: '))
         treinoAlunos[id_alu].append(Exercicio(nometrei, numerep, pesotrei))
@@ -335,6 +344,6 @@ while True:
     rel = RelatorioAluno()
   elif sec == 0:   #encerra o codigo
     break
-  else:     
+  else:
     print('\nSeção Invalida, Digite um Valor Valido')
     continue
