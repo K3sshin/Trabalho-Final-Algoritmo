@@ -1,6 +1,6 @@
 # Trabalho-Final-Algoritmo
 trabalho maneirinho
-menu principal - ok
+\nmenu principal - ok
 [1] incluir aluno - ok
 [2] gerenciar treinos - ok
 [3] consultar alunos - ok
