@@ -211,11 +211,10 @@ def mAlunos(y1, y2):
   while True:
     cont = input('\nDeseja continuar em Relatorios: S/N')
     if cont == 'S' or cont == 's':
-      break
-      RelatorioAluno()
+        RelatorioAluno()
+        break
     elif cont == 'N' or cont == 'n':
-      break
-      menuprinc()
+        break
     else:
       print('Opção invalida!')
 
@@ -258,19 +257,19 @@ def inctreino():
         if conf == 'S' or conf == 's':
           continue
         elif conf == 'N' or conf == 'n':
-          break
-          menuprinc()
+            menuprinc()
+            break
         else:
           conf = input('\nInvalido, Digite Novamente: S/N ')
     else:
       print('\nNome não encontrado!')
     conf = input('\nDeseja voltar ao menu de treino S/N ')
     if conf == 'S' or conf == 's':
-      break
-      RelatorioAluno()
+        RelatorioAluno()
+        break
     elif conf == 'N' or conf == 'n':
-      break
-      menuprinc()
+        menuprinc()
+        break
     else:
       conf = input('\nInvalido, Digite Novamente: S/N ')
 
@@ -375,6 +374,11 @@ while True:
     exc = Excluialuno()
   elif sec == 6:    #relatorio de aluno
     rel = RelatorioAluno()
+  elif sec == 0:   #encerra o codigo
+    break
+  else:
+    print('\nSeção Invalida, Digite um Valor Valido')
+    continue
   elif sec == 0:   #encerra o codigo
     break
   else:
